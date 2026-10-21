@@ -5,5 +5,4 @@ node_modules/
 preview.log
 preview-error.log
 .taste-skill/
-.github/workflows/pages.yml
 scripts/release.ps1
