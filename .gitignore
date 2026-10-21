@@ -1,8 +1,7 @@
-.taste-skill/inspect/
-.taste-skill/browser-profile/
 *.zip
+.taste-skill/
 node_modules/
 preview.log
 preview-error.log
-.taste-skill/
-scripts/release.ps1
+test-results/
+scripts/release.mjs

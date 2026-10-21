@@ -10,6 +10,10 @@ const scenarios = {
   deploy: {
     friction: 'Every release depends on a list of manual commands and someone remembering the right order.',
     connection: 'Create a repeatable pipeline to build, check, and deploy changes, with the approvals your environment needs.'
+  },
+  ai: {
+    friction: 'You want AI agents to help with real work, but they cannot be trusted near client data.',
+    connection: 'Give agents a purpose-built access layer, such as an MCP server with privacy filters, so they see only what they should.'
   }
 };
 
@@ -26,39 +30,19 @@ document.querySelectorAll('[data-scenario]').forEach(button => {
   });
 });
 
-const form = document.getElementById('brief-form');
-form.addEventListener('submit', event => {
-  event.preventDefault();
-  if (!form.reportValidity()) return;
-  const values = new FormData(form);
-  const name = values.get('name').trim();
-  const email = values.get('email').trim();
-  const project = values.get('project').trim();
-  if (!name || !project) {
-    document.getElementById('form-status').textContent = 'Please add your name and a short project description.';
-    return;
-  }
-  const subject = `CodeConduit project inquiry: ${values.get('service')}`;
-  const body = `Hi Clint,\n\nI’d like to discuss a project.\n\nName: ${name}\nEmail: ${email}\nInterested in: ${values.get('service')}\n\n${project}\n\nThanks,\n${name}`;
-  document.getElementById('prepared-brief').value = `${subject}\n\n${body}`;
-  document.getElementById('brief-fallback').hidden = false;
-  document.getElementById('form-status').textContent = 'Your draft is ready. Review and send it in your email app, or copy it below.';
-  window.location.href = `mailto:Clint@codeconduit.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-});
-
-document.getElementById('copy-brief').addEventListener('click', async () => {
-  const brief = document.getElementById('prepared-brief');
-  try {
-    await navigator.clipboard.writeText(brief.value);
-    document.getElementById('form-status').textContent = 'Brief copied. Paste it into an email to Clint@codeconduit.com.';
-  } catch {
-    brief.focus();
-    brief.select();
-    document.getElementById('form-status').textContent = 'Select and copy the brief, then email it to Clint@codeconduit.com.';
-  }
-});
-
-document.getElementById('prepare-email').disabled = false;
+const copyEmail = document.getElementById('copy-email');
+const copyStatus = document.getElementById('copy-status');
+if (navigator.clipboard) {
+  copyEmail.hidden = false;
+  copyEmail.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText('project@codeconduit.com');
+      copyStatus.textContent = 'Address copied.';
+    } catch {
+      copyStatus.textContent = 'Copy failed. The address is project@codeconduit.com.';
+    }
+  });
+}
 
 document.getElementById('year').textContent = new Date().getFullYear();
 if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -69,7 +53,6 @@ if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: re
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, {threshold: 0.12});
   document.querySelectorAll('[data-reveal]').forEach(element => observer.observe(element));
 }
-
