@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://site.codeconduit.com/sitemap.xml
+Sitemap: https://codeconduit.com/sitemap.xml

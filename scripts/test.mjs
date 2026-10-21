@@ -40,7 +40,7 @@ async function waitForVersion(base, version) {
   throw new Error(`${base} did not serve ${version} within 10 minutes`);
 }
 
-const target = process.env.BASE_URL || (process.argv.includes('--live') ? 'https://site.codeconduit.com/' : '');
+const target = process.env.BASE_URL || (process.argv.includes('--live') ? 'https://codeconduit.com/' : '');
 const {server, url: base} = target ? {url: target.replace(/\/?$/, '/')} : await serveSite();
 if (process.env.EXPECT_VERSION) await waitForVersion(base, process.env.EXPECT_VERSION);
 console.log(`Testing ${base}`);
