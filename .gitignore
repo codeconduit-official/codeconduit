@@ -5,3 +5,4 @@ preview.log
 preview-error.log
 test-results/
 scripts/release.mjs
+ledger.md
